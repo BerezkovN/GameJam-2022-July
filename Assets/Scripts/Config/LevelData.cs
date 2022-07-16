@@ -18,6 +18,7 @@ public class LevelData
 
     #region Config Content
 
+    [BinIndex(0)]
     public uint OpenedLevel { get; set; } = 1;
 
     #endregion
