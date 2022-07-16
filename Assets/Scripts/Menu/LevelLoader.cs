@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class LevelLoader : MonoBehaviour
 {
+    public static string SceneToLoad { get; private set; }
+
     [SerializeField] private GameObject _introPane;
     [SerializeField] private GameObject _levelSelectorPane;
 
@@ -17,7 +19,8 @@ public class LevelLoader : MonoBehaviour
 
     public void LoadLevel(string id)
     {
-        SceneManager.LoadScene(id, LoadSceneMode.Single);
+        SceneToLoad = id;
+        SceneManager.LoadScene("LevelLoadProgress", LoadSceneMode.Single);
     }
 
     public void Exit()
