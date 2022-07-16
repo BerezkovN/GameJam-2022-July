@@ -21,14 +21,4 @@ public class ButtonDisabler : MonoBehaviour
             _btn.interactable = false;
         }
     }
-
-    private void Enable()
-    {
-        _image.color = Color.white;
-    }
-
-    private void Disable()
-    {
-        _image.color = Color.black;
-    }
 }
