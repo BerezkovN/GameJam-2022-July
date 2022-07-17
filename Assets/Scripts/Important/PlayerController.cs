@@ -108,8 +108,6 @@ public class PlayerController : MonoBehaviour
         _isMoving = false;
     }
 
-
-    // Cancels current movement
     public void CancelMovement()
     {
         _cancel = true;
