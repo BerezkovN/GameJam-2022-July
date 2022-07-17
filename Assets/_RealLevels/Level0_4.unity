@@ -1855,7 +1855,7 @@ PrefabInstance:
       objectReference: {fileID: 445095469}
     - target: {fileID: 4512915898539520571, guid: 19f4507d53568db4d8b1757300d40e67, type: 3}
       propertyPath: NextScene
-      value: MainMenu
+      value: Level1_1
       objectReference: {fileID: 0}
     - target: {fileID: 4512915898539520571, guid: 19f4507d53568db4d8b1757300d40e67, type: 3}
       propertyPath: _diceRoll
