@@ -227,6 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cbdae29122f3114e9852437d56fda5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _camera: {fileID: 0}
   _rollSpeed: 2
 --- !u!54 &7561093345908679320
 Rigidbody:

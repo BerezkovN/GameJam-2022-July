@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
 
     private bool _cancel = false;
 
+    private Rigidbody _rigidbody;
+
     public event System.Action WinEvent;
 
     struct SavedTransform {
@@ -29,10 +31,16 @@ public class PlayerController : MonoBehaviour
 
     public void ResetDice()
     {
+        Debug.Log("Reset");
+
         transform.rotation = _saved.rotation;
         transform.position = _saved.position;
         _terminateCoroutine = true;
         _isMoving = false;
+
+        _rigidbody.useGravity = false;
+        _rigidbody.velocity = Vector3.zero;
+        _isDiceFalling = false;
     }
 
 
@@ -42,6 +50,8 @@ public class PlayerController : MonoBehaviour
         _saved.position = transform.position;
 
         _multipler = GetComponent<Collider>().bounds.size.x / 2;
+
+        _rigidbody = GetComponent<Rigidbody>();
 
         if (_camera == null)
             _camera = Camera.main.gameObject;
@@ -90,24 +100,60 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("Wall"))
+        if (other.gameObject.CompareTag("Wall"))
         {
             CancelMovement();
             return;
         }
 
-        if (collision.gameObject.CompareTag("WinPod"))
+        if (other.gameObject.CompareTag("WinPod"))
         {
             int dice = DiceUtility.WhichIsUp(transform);
-            int pod = DiceUtility.WhichIsUp(collision.transform);
+            int pod = DiceUtility.WhichIsUp(other.transform);
 
             if (dice == pod) 
             { 
                 WinEvent?.Invoke();
             }
         }
+
+        if (other.gameObject.CompareTag("FallingPlatform"))
+        {
+            other.gameObject.GetComponent<FallingPlatform>().InitStep();
+        }
+    }
+
+    private bool _isDiceFalling = false;
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("FallingPlatform"))
+        {
+            var falligPlatform = other.gameObject.GetComponent<FallingPlatform>();
+
+            if (falligPlatform.IsFallen)
+            {
+                _rigidbody.useGravity = true;
+
+                if (_isDiceFalling)
+                {
+                    return;
+                }
+
+                _isDiceFalling = true;
+                StartCoroutine(Die(falligPlatform.SecondsToDie));
+
+            }
+        }
+    }
+
+    private IEnumerator Die(float secondsToReset)
+    {
+        yield return new WaitForSeconds(secondsToReset);
+
+        ResetDice();
     }
 
     private IEnumerator Roll(Vector3 anchor, Vector3 axis, float endRotation)
