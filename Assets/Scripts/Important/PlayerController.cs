@@ -123,6 +123,11 @@ public class PlayerController : MonoBehaviour
         {
             other.gameObject.GetComponent<FallingPlatform>().InitStep();
         }
+
+        if (other.gameObject.CompareTag("Arrows"))
+        {
+            ResetDice();
+        }
     }
 
     private bool _isDiceFalling = false;
