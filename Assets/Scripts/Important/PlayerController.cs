@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] public GameObject _camera;
     //======== Public stuff ========//
     public event System.Action WinEvent;
 
@@ -35,10 +36,26 @@ public class PlayerController : MonoBehaviour
     {
         if (_isMoving) return;
 
-        if (Input.GetKeyDown(KeyCode.A)) Assemble(Vector3.left);
-        else if (Input.GetKeyDown(KeyCode.D)) Assemble(Vector3.right);
-        else if (Input.GetKeyDown(KeyCode.W)) Assemble(Vector3.forward);
-        else if (Input.GetKeyDown(KeyCode.S)) Assemble(Vector3.back);
+        Vector3[] states = new Vector3[4]
+        {
+            Vector3.forward,
+            Vector3.right,
+            Vector3.back,
+            Vector3.left
+        };
+
+        int state = -1;
+
+        if (Input.GetKeyDown(KeyCode.W)) state = 0;
+        else if (Input.GetKeyDown(KeyCode.D)) state = 1;
+        else if (Input.GetKeyDown(KeyCode.S)) state = 2;
+        else if (Input.GetKeyDown(KeyCode.A)) state = 3;
+        if (state != -1)
+        {
+            state += Mathf.RoundToInt(0.5f + (_camera.transform.rotation.eulerAngles.y - 45.0f) / 90);
+            Assemble(states[state % 4]);
+        }
+        
 
         void Assemble(Vector3 dir)
         {
