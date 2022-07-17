@@ -19,12 +19,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float _rollSpeed = 5;
 
+    private float _multipler;
+
     private bool _isMoving;
 
     private bool _cancel = false;
 
     private void Start()
     {
+        _multipler = GetComponent<Collider>().bounds.size.x / 2;
+
         WinEvent += () => Debug.Log("Win!!!");
     }
 
@@ -55,7 +59,9 @@ public class PlayerController : MonoBehaviour
 
         void Assemble(Vector3 dir)
         {
-            var anchor = transform.position + (Vector3.down + dir) * 0.5f;
+            print(GetComponent<Collider>().bounds.size);
+            //print(GetComponent<meshr>().bounds.size);
+            var anchor = transform.position + (Vector3.down + dir) * _multipler;
             var axis = Vector3.Cross(Vector3.up, dir);
             StartCoroutine(Roll(anchor, axis, 90));
         }
