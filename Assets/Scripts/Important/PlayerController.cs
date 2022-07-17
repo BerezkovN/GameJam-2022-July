@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour
             _terminateCoroutine = false;
             _diceRoll.pitch = Random.Range(0.8f, 1.2f);
             _diceRoll.Play();
-            StartCoroutine(Roll(anchor, axis, 90));
+            StartCoroutine(Roll(anchor, axis, 1.0f / _rollSpeed));
         }
     }
 
@@ -116,7 +116,7 @@ public class PlayerController : MonoBehaviour
 
         float startRotation = 0;
 
-        while (startRotation != endRotation && !_terminateCoroutine)
+        while (startRotation <= endRotation && !_terminateCoroutine)
         {
             if (_cancel)
             {
@@ -134,8 +134,8 @@ public class PlayerController : MonoBehaviour
                 yield break;
             }
 
-            startRotation += _rollSpeed;
-            transform.RotateAround(anchor, axis, _rollSpeed);
+            transform.RotateAround(anchor, axis, 90 * _rollSpeed * Mathf.Min(Time.deltaTime, endRotation - startRotation));
+            startRotation += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
 
