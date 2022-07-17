@@ -24,7 +24,7 @@ public class CreditsScroller : MonoBehaviour
         float baseSpeed = _scrollSpeed;
 
         if (Input.GetMouseButton(0))
-            baseSpeed *= 2;
+            baseSpeed *= 3;
 
         Vector3 vector = _credits.rectTransform.position;
         vector.y = _credits.rectTransform.position.y + baseSpeed * 10 * Time.deltaTime;
