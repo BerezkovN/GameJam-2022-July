@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 4528117407675984482}
   - component: {fileID: 4536708771897210134}
   - component: {fileID: 4486426676896351406}
-  - component: {fileID: 4512915898539520570}
   - component: {fileID: 4512915898539520573}
+  - component: {fileID: 4512915898539520570}
   - component: {fileID: 4512915898539520571}
   m_Layer: 0
   m_Name: Main Dice
@@ -101,6 +101,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300002, guid: b08199f2caf66cd4d921903acea2cc4e, type: 3}
+--- !u!65 &4512915898539520573
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4513421595283759082}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.14881842, y: 0.14883192, z: 0.14883181}
+  m_Center: {x: 0.000000014901161, y: 0, z: 0}
 --- !u!54 &4512915898539520570
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -117,19 +130,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!65 &4512915898539520573
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4513421595283759082}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.14881842, y: 0.14883192, z: 0.14883181}
-  m_Center: {x: 0.000000014901161, y: 0, z: 0}
 --- !u!114 &4512915898539520571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,4 +142,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cbdae29122f3114e9852437d56fda5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _camera: {fileID: 0}
   _rollSpeed: 1.5

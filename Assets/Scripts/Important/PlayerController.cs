@@ -17,9 +17,28 @@ public class PlayerController : MonoBehaviour
 
     public event System.Action WinEvent;
 
+    struct SavedTransform {
+        public Quaternion rotation;
+        public Vector3 position;
+    }
+
+    private SavedTransform _saved;
+    private bool _terminateCoroutine = false;
+
+    public void ResetDice()
+    {
+        transform.rotation = _saved.rotation;
+        transform.position = _saved.position;
+        _terminateCoroutine = true;
+        _isMoving = false;
+    }
+
 
     private void Start()
     {
+        _saved.rotation = transform.rotation;
+        _saved.position = transform.position;
+
         _multipler = GetComponent<Collider>().bounds.size.x / 2;
 
         if (_camera == null)
@@ -30,6 +49,11 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            ResetDice();
+            return;
+        }
         if (_isMoving) return;
 
         Vector3[] states = new Vector3[4]
@@ -57,6 +81,7 @@ public class PlayerController : MonoBehaviour
         {
             var anchor = transform.position + (Vector3.down + dir) * _multipler;
             var axis = Vector3.Cross(Vector3.up, dir);
+            _terminateCoroutine = false;
             StartCoroutine(Roll(anchor, axis, 90));
         }
     }
@@ -87,7 +112,7 @@ public class PlayerController : MonoBehaviour
 
         float startRotation = 0;
 
-        while (startRotation != endRotation)
+        while (startRotation != endRotation && !_terminateCoroutine)
         {
             if (_cancel)
             {
