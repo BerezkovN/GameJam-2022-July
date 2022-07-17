@@ -19,6 +19,11 @@ public class LevelLoader : MonoBehaviour
 
     public void LoadLevel(string id)
     {
+        LoadScene(id);
+    }
+
+    public static void LoadScene(string id)
+    {
         SceneToLoad = id;
         SceneManager.LoadScene("LevelLoadProgress", LoadSceneMode.Single);
     }
