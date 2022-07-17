@@ -6,6 +6,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
+    public string NextScene;
+
     [SerializeField] private GameObject _camera;
     [SerializeField] private float _rollSpeed = 5;
     [SerializeField] private AudioSource _wallHit;
@@ -56,7 +58,14 @@ public class PlayerController : MonoBehaviour
         if (_camera == null)
             _camera = Camera.main.gameObject;
 
-        WinEvent += () => Debug.Log("Win!!!");
+        WinEvent += () => StartCoroutine(NextLevel());
+        
+    }
+
+    IEnumerator NextLevel()
+    {
+        yield return new WaitForSeconds(0.2f);
+        LevelLoader.LoadScene(NextScene);
     }
 
     private void Update()
@@ -91,7 +100,7 @@ public class PlayerController : MonoBehaviour
 
         void Assemble(Vector3 dir)
         {
-            var anchor = transform.position + (Vector3.down + dir) * _multipler;
+            var anchor = transform.position + (Vector3.down + dir) * 0.5f;
             var axis = Vector3.Cross(Vector3.up, dir);
             _terminateCoroutine = false;
             _diceRoll.pitch = Random.Range(0.8f, 1.2f);
