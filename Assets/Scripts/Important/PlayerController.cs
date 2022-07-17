@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private GameObject _camera;
     [SerializeField] private float _rollSpeed = 5;
+    [SerializeField] private AudioSource _wallHit;
+    [SerializeField] private AudioSource _diceRoll;
 
     private float _multipler;
 
@@ -82,6 +84,8 @@ public class PlayerController : MonoBehaviour
             var anchor = transform.position + (Vector3.down + dir) * _multipler;
             var axis = Vector3.Cross(Vector3.up, dir);
             _terminateCoroutine = false;
+            _diceRoll.pitch = Random.Range(0.8f, 1.2f);
+            _diceRoll.Play();
             StartCoroutine(Roll(anchor, axis, 90));
         }
     }
@@ -123,7 +127,9 @@ public class PlayerController : MonoBehaviour
                 {
                     cameraShake.start = true;
                 }
+                _wallHit.pitch = Random.RandomRange(0.5f, 1.5f);
 
+                _wallHit.Play();
                 StartCoroutine(Roll(anchor, -axis, startRotation));
                 yield break;
             }
