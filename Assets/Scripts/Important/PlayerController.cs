@@ -5,25 +5,17 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] public GameObject _camera;
-    //======== Public stuff ========//
-    public event System.Action WinEvent;
-
-    // Cancels current movement
-    public void CancelMovement()
-    {
-        _cancel = true;
-    }
-
-    //======== Private stuff ========//
-    [SerializeField]
-    private float _rollSpeed = 5;
+    [SerializeField] private GameObject _camera;
+    [SerializeField] private float _rollSpeed = 5;
 
     private float _multipler;
 
     private bool _isMoving;
 
     private bool _cancel = false;
+
+    public event System.Action WinEvent;
+
 
     private void Start()
     {
@@ -67,6 +59,26 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            CancelMovement();
+            return;
+        }
+
+        if (collision.gameObject.CompareTag("WinPod"))
+        {
+            int dice = DiceUtility.WhichIsUp(transform);
+            int pod = DiceUtility.WhichIsUp(collision.transform);
+
+            if (dice == pod) 
+            { 
+                WinEvent?.Invoke();
+            }
+        }
+    }
+
     private IEnumerator Roll(Vector3 anchor, Vector3 axis, float endRotation)
     {
         _isMoving = true;
@@ -97,23 +109,10 @@ public class PlayerController : MonoBehaviour
         _isMoving = false;
     }
 
-    private void OnCollisionEnter(Collision collision)
+
+    // Cancels current movement
+    public void CancelMovement()
     {
-        if (collision.gameObject.CompareTag("Wall"))
-        {
-            CancelMovement();
-            return;
-        }
-
-        if (collision.gameObject.CompareTag("WinPod"))
-        {
-            int dice = DiceUtility.WhichIsUp(transform);
-            int pod = DiceUtility.WhichIsUp(collision.transform);
-
-            if (dice == pod) 
-            { 
-                WinEvent?.Invoke();
-            }
-        }
+        _cancel = true;
     }
 }
