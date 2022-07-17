@@ -143,4 +143,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _camera: {fileID: 0}
-  _rollSpeed: 1.5
+  _rollSpeed: 5
+  _wallHit: {fileID: 0}
+  _diceRoll: {fileID: 0}
