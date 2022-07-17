@@ -22,6 +22,9 @@ public class PlayerController : MonoBehaviour
     {
         _multipler = GetComponent<Collider>().bounds.size.x / 2;
 
+        if (_camera == null)
+            _camera = Camera.main.gameObject;
+
         WinEvent += () => Debug.Log("Win!!!");
     }
 
@@ -52,8 +55,6 @@ public class PlayerController : MonoBehaviour
 
         void Assemble(Vector3 dir)
         {
-            print(GetComponent<Collider>().bounds.size);
-            //print(GetComponent<meshr>().bounds.size);
             var anchor = transform.position + (Vector3.down + dir) * _multipler;
             var axis = Vector3.Cross(Vector3.up, dir);
             StartCoroutine(Roll(anchor, axis, 90));
