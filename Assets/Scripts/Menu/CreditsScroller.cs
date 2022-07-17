@@ -7,7 +7,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Text))]
 public class CreditsScroller : MonoBehaviour
 {
-    [SerializeField] private float _scrollSpeed = 2;
+    [SerializeField] private float _scrollSpeed = 5;
 
     private Text _credits;
     private float _dest;
@@ -21,14 +21,18 @@ public class CreditsScroller : MonoBehaviour
 
     private void Update()
     {
+        float baseSpeed = _scrollSpeed;
+
+        if (Input.GetMouseButton(0))
+            baseSpeed *= 2;
+
         Vector3 vector = _credits.rectTransform.position;
-        vector.y = _credits.rectTransform.position.y + _scrollSpeed * 10 * Time.deltaTime;
+        vector.y = _credits.rectTransform.position.y + baseSpeed * 10 * Time.deltaTime;
         _credits.rectTransform.position = vector;
     }
 
     private void FixedUpdate()
     {
-        print(_dest + "..." + _credits.rectTransform.offsetMax.y);
         if (-_credits.rectTransform.offsetMax.y <= _dest)
         {
             LevelLoader.LoadScene("MainMenu");
